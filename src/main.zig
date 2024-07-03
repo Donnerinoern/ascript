@@ -8,10 +8,10 @@ pub fn main() !void {
     var bw = io.bufferedWriter(stdout_file);
     const stdout = bw.writer();
 
-    runPrompt(&stdout, &bw);
+    try runPrompt(&stdout, &bw);
 }
 
-fn runPrompt(stdout: type, bw: type) !void {
+fn runPrompt(stdout: anytype, bw: anytype) !void {
     const run = true;
     const stdin = io.getStdIn().reader();
     while (run) {
