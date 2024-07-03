@@ -1,14 +1,24 @@
 const std = @import("std");
 const io = std.io;
 const os = std.os;
+const fs = std.fs;
 
 pub fn main() !void {
-    // var args = os.argv;
-    const stdout_file = io.getStdOut().writer();
-    var bw = io.bufferedWriter(stdout_file);
-    const stdout = bw.writer();
+    const args = os.argv;
 
-    try runPrompt(&stdout, &bw);
+    if (args.len > 1) {
+        try runFile(args[1]);
+    } else {
+        const stdout_file = io.getStdOut().writer();
+        var bw = io.bufferedWriter(stdout_file);
+        const stdout = bw.writer();
+        try runPrompt(&stdout, &bw);
+    }
+}
+
+fn runFile(fileName: [*:0]u8) !void {
+    // std.debug.print("{s}\n", .{fileName});
+    var sourceFile = fs.openFileAbsoluteZ(fileName);
 }
 
 fn runPrompt(stdout: anytype, bw: anytype) !void {
